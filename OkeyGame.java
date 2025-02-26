@@ -80,23 +80,60 @@ public class OkeyGame {
 
     }
 
-    /*
-     * TODO: Current computer player will discard the least useful tile.
+  /*
+     * Current computer player will discard the least useful tile.
      * this method should print what tile is discarded since it should be
      * known by other players. You may first discard duplicates and then
      * the single tiles and tiles that contribute to the smallest chains.
      */
     public void discardTileForComputer() {
-
+        Player currentPlayer = players[currentPlayerIndex];
+        Tile leastUsefulTile = findLeastUsefulTile(currentPlayer);
+        
+        if (leastUsefulTile != null) {
+            int tileIndex = currentPlayer.findPositionOfTile(leastUsefulTile);
+            discardTile(tileIndex);
+            System.out.println(currentPlayer.getName() + " discarded " + leastUsefulTile);
+        }
     }
-
+    
     /*
-     * TODO: discards the current player's tile at given index
+     * helper for discardTileForComputer
+     */
+    private Tile findLeastUsefulTile(Player player) {
+        Tile[] playerTiles = player.getTiles();
+        int[] tileCounts = new int[8]; //tiles are from 1-7 (no 0-index usage)
+        
+        for (int i = 0; i < player.numberOfTiles; i++) { //find occurrences of each tile value
+            tileCounts[playerTiles[i].getValue()]++;
+        }
+    
+        //prioritize discarding duplicates first
+        for (int i = 0; i < player.numberOfTiles; i++) {
+            if (tileCounts[tiles[i].getValue()] > 1) {
+                return playerTiles[i];
+            }
+        }
+
+        //if there is no duplicate, discard the tile contributing the least to chains
+        return playerTiles[0];
+    }
+    
+    /*
+     * discards the current player's tile at given index
      * this should set lastDiscardedTile variable and remove that tile from
      * that player's tiles
      */
     public void discardTile(int tileIndex) {
-
+        Player currentPlayer = players[currentPlayerIndex];
+    
+        if (tileIndex < 0 || tileIndex >= currentPlayer.numberOfTiles) {
+            System.out.println("Invalid tile index.");
+            return;
+        }
+    
+        lastDiscardedTile = currentPlayer.getAndRemoveTile(tileIndex);
+        System.out.println(currentPlayer.getName() + " discarded " + lastDiscardedTile);
     }
 
     public void displayDiscardInformation() {
