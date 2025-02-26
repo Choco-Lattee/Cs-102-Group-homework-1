@@ -47,14 +47,22 @@ public class Player {
                     }
                 }
                 if (condition) {
-                    for (int k = numberOfTiles - 1; k > i; k++) {
+                    for (int k = numberOfTiles - 1; k > i; k--) {
                         playerTiles[k+1] = playerTiles[k];
                     }
                     playerTiles[i+1] = t;
                 }
             }
             if (!condition) {
-                playerTiles[numberOfTiles] = t;
+                if (valueOfNewTile < playerTiles[0].getValue) {
+                    for (int k = numberOfTiles - 1; k >= 0; k--) {
+                        playerTiles[k+1] = playerTiles[k];
+                    }
+                    playerTiles[0] = t;
+                }
+                else {
+                    playerTiles[numberOfTiles] = t;
+                }
             }
             numberOfTiles++;
         }
