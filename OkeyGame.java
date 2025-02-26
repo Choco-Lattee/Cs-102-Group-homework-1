@@ -80,7 +80,7 @@ public class OkeyGame {
 
     }
 
-  /*
+    /*
      * Current computer player will discard the least useful tile.
      * this method should print what tile is discarded since it should be
      * known by other players. You may first discard duplicates and then
@@ -93,7 +93,8 @@ public class OkeyGame {
         if (leastUsefulTile != null) {
             int tileIndex = currentPlayer.findPositionOfTile(leastUsefulTile);
             discardTile(tileIndex);
-            System.out.println(currentPlayer.getName() + " discarded " + leastUsefulTile);
+            lastDiscardedTile = leastUsefulTile;
+            displayDiscardInformation();
         }
     }
     
@@ -133,7 +134,7 @@ public class OkeyGame {
         }
     
         lastDiscardedTile = currentPlayer.getAndRemoveTile(tileIndex);
-        System.out.println(currentPlayer.getName() + " discarded " + lastDiscardedTile);
+        displayDiscardInformation();
     }
 
     public void displayDiscardInformation() {
