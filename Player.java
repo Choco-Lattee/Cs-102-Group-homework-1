@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Player {
     String playerName;
     Tile[] playerTiles;
@@ -13,7 +15,11 @@ public class Player {
      * TODO: removes and returns the tile in given index
      */
     public Tile getAndRemoveTile(int index) {
-        return null;
+        Tile removedTile = playerTiles[index];
+        for (int i = index; i < numberOfTiles; i++) {
+            playerTiles[i] = playerTiles[i + 1];
+        }
+        return removedTile;
     }
 
     /*
@@ -22,7 +28,36 @@ public class Player {
      * make sure playerTiles are not more than 15 at any time
      */
     public void addTile(Tile t) {
-
+        int valueOfNewTile = t.getValue();
+        int colorNumber = t.colorNameToInt();
+        boolean condition = false;
+        if (numberOfTiles < 15) {
+            for (int i = 0; i < numberOfTiles; i++) {
+                if (valueOfNewTile == playerTiles[i].getValue() && colorNumber == playerTiles[i].colorNameToInt() ) {
+                    if (valueOfNewTile != playerTiles[i+1].getValue() || colorNumber != playerTiles[i+1].colorNameToInt()) {
+                        condition = true;
+                    }
+                }
+                if (valueOfNewTile > playerTiles[i].getValue() && valueOfNewTile < playerTiles[i+1].getValue() - 1) {
+                    condition = true;
+                }
+                if (valueOfNewTile == playerTiles[i].getValue()) {
+                    if (colorNumber > playerTiles[i].colorNameToInt() && colorNumber < playerTiles[i].colorNameToInt()) {
+                        condition = true;
+                    }
+                }
+                if (condition) {
+                    for (int k = numberOfTiles - 1; k > i; k++) {
+                        playerTiles[k+1] = playerTiles[k];
+                    }
+                    playerTiles[i+1] = t;
+                }
+            }
+            if (!condition) {
+                playerTiles[numberOfTiles] = t;
+            }
+            numberOfTiles++;
+        }
     }
 
     /*
@@ -32,7 +67,26 @@ public class Player {
      * @return
      */
     public boolean isWinningHand() {
-        return false;
+        ArrayList<Integer> usedValue = new ArrayList<Integer>();
+        int chainsNumber = 0;
+        for (int i = 0; i < numberOfTiles; i++) {
+            int lenght = 1;
+            for (int k = i + 1; k <numberOfTiles; k++) {
+                if (playerTiles[i].getValue() == playerTiles[k].getValue() && playerTiles[k].colorNameToInt() == lenght) {
+                    lenght++;
+                }
+            }
+            if (lenght == 4 && !usedValue.contains(playerTiles[i].getValue())) {
+                chainsNumber++;
+                usedValue.add(playerTiles[i].getValue());
+            }
+        }
+        if (chainsNumber == 3) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public int findPositionOfTile(Tile t) {
