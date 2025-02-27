@@ -66,7 +66,7 @@ public class OkeyGame {
      * finished the game, use isWinningHand() method of Player to decide
      */
     public boolean didGameFinish() {
-        return false;
+        return players[getCurrentPlayerIndex()].isWinningHand();
     }
 
     /*
