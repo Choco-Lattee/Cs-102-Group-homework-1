@@ -28,43 +28,15 @@ public class Player {
      * make sure playerTiles are not more than 15 at any time
      */
     public void addTile(Tile t) {
-        int valueOfNewTile = t.getValue();
-        int colorNumber = t.colorNameToInt();
-        boolean condition = false;
-        if (numberOfTiles < 15) {
-            for (int i = 0; i < numberOfTiles; i++) {
-                if (valueOfNewTile == playerTiles[i].getValue() && colorNumber == playerTiles[i].colorNameToInt() ) {
-                    if (valueOfNewTile != playerTiles[i+1].getValue() || colorNumber != playerTiles[i+1].colorNameToInt()) {
-                        condition = true;
-                    }
-                }
-                if (valueOfNewTile > playerTiles[i].getValue() && valueOfNewTile < playerTiles[i+1].getValue() - 1) {
-                    condition = true;
-                }
-                if (valueOfNewTile == playerTiles[i].getValue()) {
-                    if (colorNumber > playerTiles[i].colorNameToInt() && colorNumber < playerTiles[i].colorNameToInt()) {
-                        condition = true;
-                    }
-                }
-                if (condition) {
-                    for (int k = numberOfTiles - 1; k > i; k--) {
-                        playerTiles[k+1] = playerTiles[k];
-                    }
-                    playerTiles[i+1] = t;
-                }
-            }
-            if (!condition) {
-                if (valueOfNewTile < playerTiles[0].getValue) {
-                    for (int k = numberOfTiles - 1; k >= 0; k--) {
-                        playerTiles[k+1] = playerTiles[k];
-                    }
-                    playerTiles[0] = t;
-                }
-                else {
-                    playerTiles[numberOfTiles] = t;
-                }
-            }
+        if (numberOfTiles < 15)  {
+            playerTiles[numberOfTiles] = t;
             numberOfTiles++;
+            for (int i = numberOfTiles - 2; i >= 0; i--) {
+                if (t.compareTo(playerTiles[i]) == -1) {
+                    playerTiles[i+ 1] = playerTiles[i];
+                    playerTiles[i] = t;
+                }
+            }
         }
     }
 
