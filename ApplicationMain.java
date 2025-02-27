@@ -2,12 +2,25 @@ import java.util.Scanner;
 
 public class ApplicationMain {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
+        System.out.println("Do you want to activate 4-bots mode(i.e auto playing)?(Y/N)");
         Scanner sc = new Scanner(System.in);
         OkeyGame game = new OkeyGame();
-
-        System.out.print("Please enter your name: ");
-        String playerName = sc.next();
+        String realPlayer = sc.nextLine();
+        boolean isRealPlayer = realPlayer.toUpperCase().equals("N");
+        String playerName = "";
+        
+        if(isRealPlayer)
+        {
+            System.out.print("Please enter your name: ");
+            playerName = sc.nextLine();
+        }
+        else
+        {
+            playerName = "Muz";
+        }
+        
 
         game.setPlayerName(0, playerName);
         game.setPlayerName(1, "John");
@@ -32,7 +45,7 @@ public class ApplicationMain {
             int currentPlayer = game.getCurrentPlayerIndex();
             System.out.println(game.getCurrentPlayerName() + "'s turn.");
             
-            if(currentPlayer == 0) {
+            if(currentPlayer == 0 && isRealPlayer) {
                 // this is the human player's turn
                 game.displayCurrentPlayersTiles();
                 game.displayDiscardInformation();

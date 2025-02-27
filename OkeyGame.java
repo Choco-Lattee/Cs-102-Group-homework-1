@@ -1,3 +1,6 @@
+
+import java.util.ArrayList;
+
 public class OkeyGame {
 
     Player[] players;
@@ -57,7 +60,31 @@ public class OkeyGame {
     /*
      * TODO: should randomly shuffle the tiles array before game starts
      */
-    public void shuffleTiles() {
+    public void shuffleTiles() 
+    {
+        int count = 0;
+        ArrayList<Tile> shuffledTiles = new ArrayList<>();
+        for(Tile tile:tiles)
+        {
+            shuffledTiles.add(tile);
+            count++;
+            
+        }
+        for(int i = 0; i < tiles.length; i++)
+        {
+            System.out.println(tiles[i]);
+        }
+        System.out.println(shuffledTiles);
+        for(int i = 0; i < tiles.length; i++)
+        {
+            int random = (int)(Math.random() * (count - 1));
+            tiles[i] = shuffledTiles.get(random);
+        }
+        for(int i = 0; i < tiles.length; i++)
+        {
+            System.out.println(tiles[i]);
+        }
+        System.out.println(shuffledTiles);
 
     }
 
@@ -76,7 +103,8 @@ public class OkeyGame {
      * You should consider if the discarded tile is useful for the computer in
      * the current status. Print whether computer picks from tiles or discarded ones.
      */
-    public void pickTileForComputer() {
+    public void pickTileForComputer() 
+    {
 
     }
 
