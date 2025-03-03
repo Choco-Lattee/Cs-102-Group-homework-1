@@ -88,8 +88,6 @@ public class ApplicationMain {
                 if(gameContinues) {
                     // if game continues we need to discard a tile using the given index by the player
                     System.out.println("Which tile you will discard?");
-                    System.out.print("Discard the tile in index: ");
-                    playerChoice = sc.nextInt();
 
                     // Make sure the given index is correct, should be 0 <= index <= 14
                     
