@@ -57,6 +57,7 @@ public class OkeyGame {
      * it should return the toString method of the tile so that we can print what we picked
      */
     public String getLastDiscardedTile() {
+        players[currentPlayerIndex].addTile(lastDiscardedTile);
         return lastDiscardedTile.toString();
     }
 
@@ -67,6 +68,7 @@ public class OkeyGame {
      */
     public String getTopTile() {
         Tile temp = tiles[0];
+        players[currentPlayerIndex].addTile(temp);
         Tile[] newtiles = new Tile[tiles.length - 1];
 
         for(int i = 0; i < tiles.length - 1; i++){
