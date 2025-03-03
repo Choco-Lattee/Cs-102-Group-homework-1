@@ -88,6 +88,8 @@ public class ApplicationMain {
                 if(gameContinues) {
                     // if game continues we need to discard a tile using the given index by the player
                     System.out.println("Which tile you will discard?");
+                    System.out.print("Discard the tile in index: ");
+                    playerChoice = sc.nextInt();
 
                     // Make sure the given index is correct, should be 0 <= index <= 14
                     
@@ -106,6 +108,7 @@ public class ApplicationMain {
                 else{
                     // if we finish the hand we win
                     System.out.println("Congratulations, you win!");
+                    break;
                 }
             }
             else{
@@ -119,6 +122,7 @@ public class ApplicationMain {
 
                 gameContinues = !game.didGameFinish();
 
+
                 if(gameContinues) {
                     // if game did not end computer should discard
                     game.discardTileForComputer();
@@ -126,7 +130,7 @@ public class ApplicationMain {
                 }
                 else{
                     // current computer character wins
-                    System.out.println(game.getCurrentPlayerName() + " wins.");
+                    break;
                 }
             }
         }
