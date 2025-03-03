@@ -33,7 +33,7 @@ public class Player {
             playerTiles[numberOfTiles] = t;
             numberOfTiles++;
             for (int i = numberOfTiles - 2; i >= 0; i--) {
-                if (t != null && playerTiles[i] != null && t.compareTo(playerTiles[i]) == -1) {
+                if (t.compareTo(playerTiles[i]) == -1) {
                     playerTiles[i+ 1] = playerTiles[i];
                     playerTiles[i] = t;
                 }
