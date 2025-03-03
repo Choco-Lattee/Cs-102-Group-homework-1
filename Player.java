@@ -20,6 +20,7 @@ public class Player {
         for (int i = index; i < numberOfTiles - 1; i++) {
             playerTiles[i] = playerTiles[i + 1];
         }
+        playerTiles[numberOfTiles] = null;
         return removedTile;
     }
 
@@ -108,6 +109,6 @@ public class Player {
     }
 
     public int getNumberOfTiles(){
-        return getNumberOfTiles;
+        return numberOfTiles;
     }
 }
