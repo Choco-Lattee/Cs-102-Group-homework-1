@@ -124,28 +124,32 @@ public class OkeyGame {
      * You should consider if the discarded tile is useful for the computer in
      * the current status. Print whether computer picks from tiles or discarded ones.
      */
-    public void pickTileForComputer() 
-    {
-        Player currentPlayer = players[currentPlayerIndex];
-        boolean isTheDiscardedTileUseful = false;
+    public void pickTileForComputer() {
+    Player currentPlayer = players[currentPlayerIndex];
 
-        for(int i =0; i < 15; i++){
-            if (lastDiscardedTile.getValue() == currentPlayer.getTiles()[i].getValue() &&
-    lastDiscardedTile.getColor() != currentPlayer.getTiles()[i].getColor()){
-                isTheDiscardedTileUseful =true;
-                break;
-            }
-        }
+    if (lastDiscardedTile == null) { 
+        System.out.println("No discarded tile, picking from tiles.");
+        currentPlayer.addTile(new Tile(getTopTile().charAt(0), getTopTile().charAt(1)));
+        return;
+    }
 
-        if(isTheDiscardedTileUseful){
-            System.out.println("Computer picks from discarded ones.");
-            currentPlayer.addTile(lastDiscardedTile); 
-        }
-        else{
-            System.out.println("Computer picks from tiles.");
-            currentPlayer.addTile(new Tile(getTopTile().charAt(0),getTopTile().charAt(1)));
+    boolean isTheDiscardedTileUseful = false;
+    for (int i = 0; i < currentPlayer.numberOfTiles; i++) {
+        if (lastDiscardedTile.getValue() == currentPlayer.getTiles()[i].getValue() &&
+            lastDiscardedTile.getColor() != currentPlayer.getTiles()[i].getColor()) {
+            isTheDiscardedTileUseful = true;
+            break;
         }
     }
+
+    if (isTheDiscardedTileUseful) {
+        System.out.println("Computer picks from discarded ones.");
+        currentPlayer.addTile(lastDiscardedTile); 
+    } else {
+        System.out.println("Computer picks from tiles.");
+        currentPlayer.addTile(new Tile(getTopTile().charAt(0), getTopTile().charAt(1)));
+    }
+}
 
     /*
      * Current computer player will discard the least useful tile.
