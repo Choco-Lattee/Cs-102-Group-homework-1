@@ -103,6 +103,10 @@ public class OkeyGame {
      * finished the game, use isWinningHand() method of Player to decide
      */
     public boolean didGameFinish() {
+        if(tiles.length <= 0)
+        {
+            return true;
+        }
         return players[getCurrentPlayerIndex()].isWinningHand();
     }
 
@@ -127,6 +131,7 @@ public class OkeyGame {
         if (lastDiscardedTile != null && currentPlayer.getTiles()[i] != null &&lastDiscardedTile.getValue() == currentPlayer.getTiles()[i].getValue() &&
             lastDiscardedTile.getColor() != currentPlayer.getTiles()[i].getColor()) {
             isTheDiscardedTileUseful = true;
+            lastDiscardedTile = null;
             break;
         }
     }
@@ -185,7 +190,7 @@ private Tile findLeastUsefulTile(Player player) {
     Tile duplicateTile = null;
     for (int i = 0; i < player.numberOfTiles; i++) 
     {
-        if (tileCounts.length > playerTiles[i].getValue() && tileCounts[playerTiles[i].getValue()] > 1) 
+        if (playerTiles[i] != null && tileCounts.length > playerTiles[i].getValue() && tileCounts[playerTiles[i].getValue()] > 1) 
         {
             duplicateTile = playerTiles[i];  // Keep last duplicate found
         }
