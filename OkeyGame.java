@@ -163,28 +163,32 @@ public void discardTileForComputer() {
         if (tileIndex != -1) { //ensure the tile exists before discarding
             discardTile(tileIndex);
         } else {
-            System.out.println("Error: Could not find tile to discard.");
+            System.out.println("Error: Could not find tile " + leastUsefulTile.toString() + " to discard.");
         }
+    } else {
+        System.out.println("Error: No valid tile found to discard.");
     }
 }
+
     
     /*
      * helper for discardTileForComputer
      */
 private Tile findLeastUsefulTile(Player player) {
     Tile[] playerTiles = player.getTiles();
-    int[] tileCounts = new int[8]; // Index 0 is unused, values from [1,7]
+    int[] tileCounts = new int[8]; //index 0 is unused, values from [1,7]
+    Tile leastUsefulTile = playerTiles[0]; //declare and initialize
 
     //count occurrences for each tile value
     for (int i = 0; i < player.numberOfTiles; i++) {
         tileCounts[playerTiles[i].getValue()]++;
     }
 
-    // Find the most frequent duplicate to discard first
+    //find the most frequent duplicate to discard first
     Tile duplicateTile = null;
     for (int i = 0; i < player.numberOfTiles; i++) {
         if (tileCounts[playerTiles[i].getValue()] > 1) {
-            duplicateTile = playerTiles[i];  //keep last duplicate found
+            duplicateTile = playerTiles[i];  // Keep last duplicate found
         }
     }
 
@@ -194,7 +198,6 @@ private Tile findLeastUsefulTile(Player player) {
 
     //find the tile with the lowest count
     int minCount = tileCounts[playerTiles[0].getValue()];
-
     for (int i = 1; i < player.numberOfTiles; i++) {
         int value = playerTiles[i].getValue();
         if (tileCounts[value] < minCount) {
@@ -205,6 +208,7 @@ private Tile findLeastUsefulTile(Player player) {
 
     return leastUsefulTile;
 }
+
 
 
     
@@ -223,11 +227,14 @@ public void discardTile(int tileIndex) {
 
     lastDiscardedTile = currentPlayer.getAndRemoveTile(tileIndex);
 
-    //remove last tile space in player's hand
-    currentPlayer.getTiles()[currentPlayer.numberOfTiles] = null;
+    //clear the correct last tile slot
+    if (currentPlayer.numberOfTiles > 0) {
+        currentPlayer.getTiles()[currentPlayer.numberOfTiles] = null;
+    }
     
     displayDiscardInformation();
 }
+
 
     public void displayDiscardInformation() {
         if(lastDiscardedTile != null) {
