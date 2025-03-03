@@ -203,6 +203,13 @@ private Tile findLeastUsefulTile(Player player) {
     //find the tile with the lowest count
     int minCount = tileCounts[playerTiles[0].getValue()];
     for (int i = 1; i < player.numberOfTiles; i++) {
+        if(playerTiles[i]==null)
+        {
+            int value = playerTiles[i-1].getValue();
+            minCount = tileCounts[value];
+            leastUsefulTile = playerTiles[i];
+            break;
+        }
         int value = playerTiles[i].getValue();
         if (tileCounts[value] < minCount) {
             minCount = tileCounts[value];
