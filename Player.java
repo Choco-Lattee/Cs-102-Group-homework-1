@@ -16,10 +16,10 @@ public class Player {
      */
     public Tile getAndRemoveTile(int index) {
         Tile removedTile = playerTiles[index];
+        numberOfTiles = numberOfTiles - 1;
         for (int i = index; i < numberOfTiles - 1; i++) {
             playerTiles[i] = playerTiles[i + 1];
         }
-        numberOfTiles--;
         return removedTile;
     }
 
@@ -79,7 +79,7 @@ public class Player {
     public int findPositionOfTile(Tile t) {
         int tilePosition = -1;
         for (int i = 0; i < numberOfTiles; i++) {
-            if(playerTiles[i].compareTo(t) == 0) {
+            if(playerTiles[i] != null&&  playerTiles[i].compareTo(t) == 0) {
                 tilePosition = i;
             }
         }
@@ -89,6 +89,7 @@ public class Player {
     public void displayTiles() {
         System.out.println(playerName + "'s Tiles:");
         for (int i = 0; i < numberOfTiles; i++) {
+            if(playerTiles[i] != null)
             System.out.print(playerTiles[i].toString() + " ");
         }
         System.out.println();
