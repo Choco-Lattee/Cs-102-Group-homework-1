@@ -124,7 +124,7 @@ public class OkeyGame {
 
     boolean isTheDiscardedTileUseful = false;
     for (int i = 0; i < currentPlayer.numberOfTiles; i++) {
-        if (lastDiscardedTile.getValue() == currentPlayer.getTiles()[i].getValue() &&
+        if (lastDiscardedTile != null && currentPlayer.getTiles()[i] != null &&lastDiscardedTile.getValue() == currentPlayer.getTiles()[i].getValue() &&
             lastDiscardedTile.getColor() != currentPlayer.getTiles()[i].getColor()) {
             isTheDiscardedTileUseful = true;
             break;
@@ -175,7 +175,7 @@ private Tile findLeastUsefulTile(Player player) {
     //count occurrences for each tile value
     for (int i = 0; i < player.numberOfTiles; i++) 
     {
-        if(playerTiles[i].getValue() < tileCounts.length)
+        if(playerTiles[i] != null && playerTiles[i].getValue() < tileCounts.length)
         {
             tileCounts[playerTiles[i].getValue()]++;
         }

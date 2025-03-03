@@ -19,6 +19,7 @@ public class Player {
         for (int i = index; i < numberOfTiles - 1; i++) {
             playerTiles[i] = playerTiles[i + 1];
         }
+        numberOfTiles--;
         return removedTile;
     }
 
@@ -54,7 +55,7 @@ public class Player {
             int lenght = 1;
             for (int k = i + 1; k <numberOfTiles; k++) 
             {
-                if (i < playerTiles.length && k < playerTiles.length && playerTiles[i].getValue() == playerTiles[k].getValue() && playerTiles[k].colorNameToInt() == lenght) 
+                if (playerTiles[i] != null && playerTiles[k] != null && playerTiles[i].getValue() == playerTiles[k].getValue() && playerTiles[k].colorNameToInt() == lenght) 
                 {
                     lenght++;
                 }

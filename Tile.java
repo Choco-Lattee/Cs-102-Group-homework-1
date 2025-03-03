@@ -18,6 +18,10 @@ public class Tile {
      * Compares tiles so that they can be added to the hands in order
      */
     public int compareTo(Tile t) {
+        if(t == null)
+        {
+            return -1;
+        }
         if(getValue() < t.getValue()) {
             return -1;
         }
@@ -68,7 +72,8 @@ public class Tile {
         return "" + value + color;
     }
 
-    public int getValue() {
+    public int getValue() 
+    {
         return value;
     }
 
