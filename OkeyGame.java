@@ -130,8 +130,8 @@ public class OkeyGame {
         boolean isTheDiscardedTileUseful = false;
 
         for(int i =0; i < 15; i++){
-            if((getLastDiscardedTile().charAt(0) == currentPlayer.getTiles()[i].toString().charAt(0)) 
-            && getLastDiscardedTile().charAt(1) != currentPlayer.getTiles()[i].toString().charAt(1)){
+            if (lastDiscardedTile.getValue() == currentPlayer.getTiles()[i].getValue() &&
+    lastDiscardedTile.getColor() != currentPlayer.getTiles()[i].getColor()){
                 isTheDiscardedTileUseful =true;
                 break;
             }
@@ -153,56 +153,81 @@ public class OkeyGame {
      * known by other players. You may first discard duplicates and then
      * the single tiles and tiles that contribute to the smallest chains.
      */
-    public void discardTileForComputer() {
-        Player currentPlayer = players[currentPlayerIndex];
-        Tile leastUsefulTile = findLeastUsefulTile(currentPlayer);
+public void discardTileForComputer() {
+    Player currentPlayer = players[currentPlayerIndex];
+    Tile leastUsefulTile = findLeastUsefulTile(currentPlayer);
+    
+    if (leastUsefulTile != null) {
+        int tileIndex = currentPlayer.findPositionOfTile(leastUsefulTile);
         
-        if (leastUsefulTile != null) {
-            int tileIndex = currentPlayer.findPositionOfTile(leastUsefulTile);
+        if (tileIndex != -1) { //ensure the tile exists before discarding
             discardTile(tileIndex);
-            lastDiscardedTile = leastUsefulTile;
-            displayDiscardInformation();
+        } else {
+            System.out.println("Error: Could not find tile to discard.");
         }
     }
+}
     
     /*
      * helper for discardTileForComputer
      */
-    private Tile findLeastUsefulTile(Player player) {
-        Tile[] playerTiles = player.getTiles();
-        int[] tileCounts = new int[8]; //tiles are from 1-7 (no 0-index usage)
-        
-        for (int i = 0; i < player.numberOfTiles; i++) { //find occurrences of each tile value
-            tileCounts[playerTiles[i].getValue()]++;
-        }
-    
-        //prioritize discarding duplicates first
-        for (int i = 0; i < player.numberOfTiles; i++) {
-            if (tileCounts[tiles[i].getValue()] > 1) {
-                return playerTiles[i];
-            }
-        }
+private Tile findLeastUsefulTile(Player player) {
+    Tile[] playerTiles = player.getTiles();
+    int[] tileCounts = new int[8]; // Index 0 is unused, values from [1,7]
 
-        //if there is no duplicate, discard the tile contributing the least to chains
-        return playerTiles[0];
+    //count occurrences for each tile value
+    for (int i = 0; i < player.numberOfTiles; i++) {
+        tileCounts[playerTiles[i].getValue()]++;
     }
+
+    // Find the most frequent duplicate to discard first
+    Tile duplicateTile = null;
+    for (int i = 0; i < player.numberOfTiles; i++) {
+        if (tileCounts[playerTiles[i].getValue()] > 1) {
+            duplicateTile = playerTiles[i];  //keep last duplicate found
+        }
+    }
+
+    if (duplicateTile != null) {
+        return duplicateTile; //return a duplicate if found
+    }
+
+    //find the tile with the lowest count
+    int minCount = tileCounts[playerTiles[0].getValue()];
+
+    for (int i = 1; i < player.numberOfTiles; i++) {
+        int value = playerTiles[i].getValue();
+        if (tileCounts[value] < minCount) {
+            minCount = tileCounts[value];
+            leastUsefulTile = playerTiles[i];
+        }
+    }
+
+    return leastUsefulTile;
+}
+
+
     
     /*
      * discards the current player's tile at given index
      * this should set lastDiscardedTile variable and remove that tile from
      * that player's tiles
      */
-    public void discardTile(int tileIndex) {
-        Player currentPlayer = players[currentPlayerIndex];
-    
-        if (tileIndex < 0 || tileIndex >= currentPlayer.numberOfTiles) {
-            System.out.println("Invalid tile index.");
-            return;
-        }
-    
-        lastDiscardedTile = currentPlayer.getAndRemoveTile(tileIndex);
-        displayDiscardInformation();
+public void discardTile(int tileIndex) {
+    Player currentPlayer = players[currentPlayerIndex];
+
+    if (tileIndex < 0 || tileIndex >= currentPlayer.numberOfTiles) {
+        System.out.println("Invalid tile index.");
+        return;
     }
+
+    lastDiscardedTile = currentPlayer.getAndRemoveTile(tileIndex);
+
+    //remove last tile space in player's hand
+    currentPlayer.getTiles()[currentPlayer.numberOfTiles] = null;
+    
+    displayDiscardInformation();
+}
 
     public void displayDiscardInformation() {
         if(lastDiscardedTile != null) {
