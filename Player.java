@@ -108,6 +108,6 @@ public class Player {
     }
 
     public int getNumberOfTiles(){
-        return getNumberOfTiles;
+        return numberOfTiles;
     }
 }
