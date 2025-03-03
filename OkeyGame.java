@@ -127,12 +127,16 @@ public class OkeyGame {
     }
 
     boolean isTheDiscardedTileUseful = false;
-    for (int i = 0; i < currentPlayer.numberOfTiles; i++) {
-        if (lastDiscardedTile != null && currentPlayer.getTiles()[i] != null &&lastDiscardedTile.getValue() == currentPlayer.getTiles()[i].getValue() &&
+    int count =0;
+    for (int i = 0; i < currentPlayer.getNumberOfTiles(); i++) {
+        if (lastDiscardedTile != null && currentPlayer.getTiles()[i] != null && lastDiscardedTile.getValue() == currentPlayer.getTiles()[i].getValue() &&
             lastDiscardedTile.getColor() != currentPlayer.getTiles()[i].getColor()) {
-            isTheDiscardedTileUseful = true;
-            lastDiscardedTile = null;
-            break;
+            count++;
+            if(count == 2){
+                isTheDiscardedTileUseful = true;
+                lastDiscardedTile = null;
+                break;
+            }
         }
     }
 

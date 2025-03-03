@@ -106,4 +106,8 @@ public class Player {
     public String getName() {
         return playerName;
     }
+
+    public int getNumberOfTiles(){
+        return getNumberOfTiles;
+    }
 }
