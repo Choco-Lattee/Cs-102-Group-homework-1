@@ -126,7 +126,25 @@ public class OkeyGame {
      */
     public void pickTileForComputer() 
     {
+        Player currentPlayer = players[currentPlayerIndex];
+        boolean isTheDiscardedTileUseful = false;
 
+        for(int i =0; i < 15; i++){
+            if((getLastDiscardedTile().charAt(0) == currentPlayer.getTiles()[i].toString().charAt(0)) 
+            && getLastDiscardedTile().charAt(1) != currentPlayer.getTiles()[i].toString().charAt(1)){
+                isTheDiscardedTileUseful =true;
+                break;
+            }
+        }
+
+        if(isTheDiscardedTileUseful){
+            System.out.println("Computer picks from discarded ones.");
+            currentPlayer.addTile(lastDiscardedTile); 
+        }
+        else{
+            System.out.println("Computer picks from tiles.");
+            currentPlayer.addTile(new Tile(getTopTile().charAt(0),getTopTile().charAt(1)));
+        }
     }
 
     /*
