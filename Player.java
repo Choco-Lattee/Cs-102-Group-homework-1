@@ -16,7 +16,7 @@ public class Player {
      */
     public Tile getAndRemoveTile(int index) {
         Tile removedTile = playerTiles[index];
-        for (int i = index; i < numberOfTiles; i++) {
+        for (int i = index; i < numberOfTiles - 1; i++) {
             playerTiles[i] = playerTiles[i + 1];
         }
         return removedTile;
@@ -47,24 +47,30 @@ public class Player {
      * @return
      */
     public boolean isWinningHand() {
-        ArrayList<Integer> usedValue = new ArrayList<Integer>();
+        ArrayList<Integer> usedValue = new ArrayList<>();
         int chainsNumber = 0;
-        for (int i = 0; i < numberOfTiles; i++) {
+        for (int i = 0; i < numberOfTiles; i++) 
+        {
             int lenght = 1;
-            for (int k = i + 1; k <numberOfTiles; k++) {
-                if (playerTiles[i].getValue() == playerTiles[k].getValue() && playerTiles[k].colorNameToInt() == lenght) {
+            for (int k = i + 1; k <numberOfTiles; k++) 
+            {
+                if (i < playerTiles.length && k < playerTiles.length && playerTiles[i].getValue() == playerTiles[k].getValue() && playerTiles[k].colorNameToInt() == lenght) 
+                {
                     lenght++;
                 }
             }
-            if (lenght == 4 && !usedValue.contains(playerTiles[i].getValue())) {
+            if (lenght == 4 && !usedValue.contains(playerTiles[i].getValue())) 
+            {
                 chainsNumber++;
                 usedValue.add(playerTiles[i].getValue());
             }
         }
-        if (chainsNumber == 3) {
+        if (chainsNumber == 3) 
+        {
             return true;
         }
-        else {
+        else 
+        {
             return false;
         }
     }

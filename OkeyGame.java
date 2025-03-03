@@ -69,7 +69,7 @@ public class OkeyGame {
         Tile temp = tiles[0];
         Tile[] newtiles = new Tile[tiles.length - 1];
 
-        for(int i = 0; i < tiles.length; i++){
+        for(int i = 0; i < tiles.length - 1; i++){
             newtiles[i] = tiles[i + 1];
         }
 
@@ -93,20 +93,9 @@ public class OkeyGame {
         }
         for(int i = 0; i < tiles.length; i++)
         {
-            System.out.println(tiles[i]);
-        }
-        System.out.println(shuffledTiles);
-        for(int i = 0; i < tiles.length; i++)
-        {
             int random = (int)(Math.random() * (count - 1));
             tiles[i] = shuffledTiles.get(random);
         }
-        for(int i = 0; i < tiles.length; i++)
-        {
-            System.out.println(tiles[i]);
-        }
-        System.out.println(shuffledTiles);
-
     }
 
     /*
@@ -184,14 +173,20 @@ private Tile findLeastUsefulTile(Player player) {
     Tile leastUsefulTile = playerTiles[0]; //declare and initialize
 
     //count occurrences for each tile value
-    for (int i = 0; i < player.numberOfTiles; i++) {
-        tileCounts[playerTiles[i].getValue()]++;
+    for (int i = 0; i < player.numberOfTiles; i++) 
+    {
+        if(playerTiles[i].getValue() < tileCounts.length)
+        {
+            tileCounts[playerTiles[i].getValue()]++;
+        }
     }
 
     //find the most frequent duplicate to discard first
     Tile duplicateTile = null;
-    for (int i = 0; i < player.numberOfTiles; i++) {
-        if (tileCounts[playerTiles[i].getValue()] > 1) {
+    for (int i = 0; i < player.numberOfTiles; i++) 
+    {
+        if (tileCounts.length > playerTiles[i].getValue() && tileCounts[playerTiles[i].getValue()] > 1) 
+        {
             duplicateTile = playerTiles[i];  // Keep last duplicate found
         }
     }
@@ -232,8 +227,9 @@ public void discardTile(int tileIndex) {
     lastDiscardedTile = currentPlayer.getAndRemoveTile(tileIndex);
 
     //clear the correct last tile slot
-    if (currentPlayer.numberOfTiles > 0) {
-        currentPlayer.getTiles()[currentPlayer.numberOfTiles] = null;
+    if (currentPlayer.numberOfTiles > 0) 
+    {
+        currentPlayer.getTiles()[currentPlayer.numberOfTiles - 1] = null;
     }
     
     displayDiscardInformation();
